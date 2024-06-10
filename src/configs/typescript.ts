@@ -104,6 +104,7 @@ export function typescript(
         'no-array-constructor': 'off',
         'no-loss-of-precision': 'off',
         'no-throw-literal': 'off',
+        'no-undef': 'off',
         'no-unused-vars': 'off',
         'no-useless-constructor': 'off',
         ...overrides,
