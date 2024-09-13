@@ -34,7 +34,6 @@ export function react(
   } = options
 
   return [
-    ...(a11y ? [pluginJSXA11y.flatConfigs.recommended] : []),
     {
       files: [GLOB_JS, GLOB_JSX, GLOB_TS, GLOB_TSX],
       languageOptions: {
@@ -49,11 +48,13 @@ export function react(
         sourceType: 'module',
       },
       plugins: {
+        'jsx-a11y': pluginJSXA11y,
         react: pluginReact,
         'react-hooks': pluginReactHook,
         'react-refresh': pluginReactRefresh,
       },
       rules: {
+        ...(a11y ? pluginJSXA11y.flatConfigs.recommended.rules : {}),
         'react/function-component-definition': [
           'error',
           {
