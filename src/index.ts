@@ -72,10 +72,12 @@ export function defineConfig(
   options: Options = {},
   userConfigs?: FlatESLintConfig[],
 ): FlatESLintConfig[] {
+  const isUsingReact = isPackageExists('react')
   const isUsingTypeScript = isPackageExists('typescript')
 
   const presets: Presets = {
     ...defaultPresets,
+    react: isUsingReact,
     typescript: isUsingTypeScript,
     ...options.presets,
   }
