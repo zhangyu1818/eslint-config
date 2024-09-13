@@ -1,7 +1,7 @@
 {
   "name": "@zhangyu1818/eslint-config",
   "type": "module",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "zhangyu1818's eslint config",
   "license": "MIT",
   "homepage": "https://github.com/zhangyu1818/eslint-config",
@@ -42,14 +42,14 @@
     "globals": "^15.9.0",
     "jsonc-eslint-parser": "^2.4.0",
     "local-pkg": "^0.5.0",
-    "typescript-eslint": "^8.5.0"
+    "typescript-eslint": "^8.5.0",
+    "@next/eslint-plugin-next": "^14.2.11",
+    "eslint-plugin-jsx-a11y": "^6.10.0"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "^14.2.11",
     "@types/node": "^20.16.5",
     "eslint": "^8.57.0",
     "eslint-define-config": "^2.1.0",
-    "eslint-plugin-jsx-a11y": "^6.10.0",
     "prettier": "^3.3.3",
     "tsup": "^8.2.4",
     "tsx": "^4.19.1",
