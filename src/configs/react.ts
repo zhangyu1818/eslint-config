@@ -121,7 +121,13 @@ export function react(
             allowExportNames: [
               ...(isUsingNext
                 ? [
-                    'config',
+                    'dynamic',
+                    'dynamicParams',
+                    'revalidate',
+                    'fetchCache',
+                    'runtime',
+                    'preferredRegion',
+                    'maxDuration',
                     'generateStaticParams',
                     'metadata',
                     'generateMetadata',
