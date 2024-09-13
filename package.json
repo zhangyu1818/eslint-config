@@ -1,7 +1,7 @@
 {
   "name": "@zhangyu1818/eslint-config",
   "type": "module",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "zhangyu1818's eslint config",
   "license": "MIT",
   "homepage": "https://github.com/zhangyu1818/eslint-config",
