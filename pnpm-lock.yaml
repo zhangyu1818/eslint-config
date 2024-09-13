@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@next/eslint-plugin-next':
+        specifier: ^14.2.11
+        version: 14.2.11
       eslint-config-prettier:
         specifier: ^9.1.0
         version: 9.1.0(eslint@8.57.0)
@@ -20,6 +23,9 @@ importers:
       eslint-plugin-jsonc:
         specifier: ^2.16.0
         version: 2.16.0(eslint@8.57.0)
+      eslint-plugin-jsx-a11y:
+        specifier: ^6.10.0
+        version: 6.10.0(eslint@8.57.0)
       eslint-plugin-n:
         specifier: ^17.10.2
         version: 17.10.2(eslint@8.57.0)
@@ -69,9 +75,6 @@ importers:
         specifier: ^8.5.0
         version: 8.5.0(eslint@8.57.0)(typescript@5.5.4)
     devDependencies:
-      '@next/eslint-plugin-next':
-        specifier: ^14.2.11
-        version: 14.2.11
       '@types/node':
         specifier: ^20.16.5
         version: 20.16.5
@@ -81,9 +84,6 @@ importers:
       eslint-define-config:
         specifier: ^2.1.0
         version: 2.1.0
-      eslint-plugin-jsx-a11y:
-        specifier: ^6.10.0
-        version: 6.10.0(eslint@8.57.0)
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
