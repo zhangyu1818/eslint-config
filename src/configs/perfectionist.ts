@@ -1,11 +1,6 @@
-// @ts-expect-error - no types
-import * as eslintPluginPerfectionist from 'eslint-plugin-perfectionist'
-
-import { interopDefault } from '../utils'
+import pluginPerfectionist from 'eslint-plugin-perfectionist'
 
 import type { FlatESLintConfig, RulesOverrides } from '../types'
-
-const pluginPerfectionist = interopDefault(eslintPluginPerfectionist)
 
 export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
   return [
@@ -37,7 +32,7 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
         'perfectionist/sort-imports': [
           'error',
           {
-            'custom-groups': {
+            customGroups: {
               type: {
                 next: ['next', 'next/**'],
                 react: ['react', 'react-dom{,/*}'],
@@ -57,8 +52,6 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
               ['index', 'sibling', 'parent'],
               'builtin-type',
               'external-type',
-              'next-type',
-              'react-type',
               'internal-type',
               ['index-type', 'sibling-type', 'parent-type'],
               'style',
@@ -66,9 +59,8 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
               'side-effect-style',
               'unknown',
             ],
-            'ignore-case': false,
-            'internal-pattern': ['@/**'],
-            'newlines-between': 'always',
+            internalPattern: ['@/**'],
+            newlinesBetween: 'always',
             order: 'asc',
             type: 'natural',
           },
@@ -97,7 +89,7 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
         'perfectionist/sort-named-exports': [
           'error',
           {
-            'group-kind': 'values-first',
+            groupKind: 'values-first',
             order: 'asc',
             type: 'natural',
           },
@@ -105,7 +97,7 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
         'perfectionist/sort-named-imports': [
           'error',
           {
-            'group-kind': 'values-first',
+            groupKind: 'values-first',
             order: 'asc',
             type: 'natural',
           },
@@ -120,12 +112,12 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
         'perfectionist/sort-objects': [
           'error',
           {
-            'custom-groups': {
+            customGroups: {
               id: 'id',
             },
             groups: ['id', 'unknown'],
             order: 'asc',
-            'partition-by-comment': 'Part:**',
+            partitionByComment: 'Part:**',
             type: 'natural',
           },
         ],
@@ -137,6 +129,11 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
           },
         ],
         ...overrides,
+      },
+      settings: {
+        perfectionist: {
+          ignoreCase: false,
+        },
       },
     },
   ]

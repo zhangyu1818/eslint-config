@@ -1,4 +1,6 @@
 // @ts-expect-error - no types
+import * as eslintPluginJSXA11y from 'eslint-plugin-jsx-a11y'
+// @ts-expect-error - no types
 import * as eslintPluginReact from 'eslint-plugin-react'
 // @ts-expect-error - no types
 import * as eslintPluginReactHook from 'eslint-plugin-react-hooks'
@@ -11,23 +13,28 @@ import { interopDefault } from '../utils'
 
 import type {
   FlatESLintConfig,
-  ReactFrameworkOptions,
+  ReactOptions,
   RulesOverrides,
   TsParserOptions,
 } from '../types'
 
 const pluginReact = interopDefault(eslintPluginReact)
 const pluginReactHook = interopDefault(eslintPluginReactHook)
-const reactRefresh = interopDefault(eslintPluginReactRefresh)
+const pluginReactRefresh = interopDefault(eslintPluginReactRefresh)
+const pluginJSXA11y = interopDefault(eslintPluginJSXA11y)
 
 export function react(
   overrides: RulesOverrides,
   parserOptions: TsParserOptions,
-  frameworkOptions: ReactFrameworkOptions,
+  options: ReactOptions = {},
 ): FlatESLintConfig[] {
-  const { next: isUsingNext, vite: isUsingVite } = frameworkOptions
+  const {
+    a11y = true,
+    framework: { next: isUsingNext, vite: isUsingVite } = {},
+  } = options
 
   return [
+    ...(a11y ? [pluginJSXA11y.flatConfigs.recommended] : []),
     {
       files: [GLOB_JS, GLOB_JSX, GLOB_TS, GLOB_TSX],
       languageOptions: {
@@ -44,7 +51,7 @@ export function react(
       plugins: {
         react: pluginReact,
         'react-hooks': pluginReactHook,
-        'react-refresh': reactRefresh,
+        'react-refresh': pluginReactRefresh,
       },
       rules: {
         'react/function-component-definition': [

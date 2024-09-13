@@ -1,13 +1,9 @@
-// @ts-expect-error - no types
-import * as eslintPluginUnusedImports from 'eslint-plugin-unused-imports'
+import pluginUnusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 
 import { GLOB_SRC, GLOB_SRC_EXT } from '../globs'
-import { interopDefault } from '../utils'
 
 import type { FlatESLintConfig, RulesOverrides } from '../types'
-
-const pluginUnusedImports = interopDefault(eslintPluginUnusedImports)
 
 export function javascript(overrides: RulesOverrides = {}): FlatESLintConfig[] {
   return [

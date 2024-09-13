@@ -24,6 +24,7 @@ import {
 import type {
   FlatESLintConfig,
   ReactFrameworkOptions,
+  ReactOptions,
   RulesOverrides,
   TsParserOptions,
 } from './types'
@@ -51,7 +52,7 @@ export interface Presets {
 export interface Options {
   parserOptions?: TsParserOptions
   presets?: Presets
-  reactFramework?: ReactFrameworkOptions
+  reactOptions?: ReactOptions
 }
 
 const defaultPresets: Presets = {
@@ -89,11 +90,11 @@ export function defineConfig(
     ...options.parserOptions,
   }
 
-  const reactFrameworkOptions: ReactFrameworkOptions =
-    options.reactFramework ?? {
-      next: isPackageExists('next'),
-      vite: isPackageExists('vite'),
-    }
+  const reactFrameworkOptions: ReactFrameworkOptions = options.reactOptions
+    ?.framework ?? {
+    next: isPackageExists('next'),
+    vite: isPackageExists('vite'),
+  }
 
   const configs: FlatESLintConfig[] = []
 
@@ -152,7 +153,11 @@ export function defineConfig(
 
   if (presets.react) {
     const overrides = getRuleOverrides(presets.react)
-    configs.push(...react(overrides, parserOptions, reactFrameworkOptions))
+    configs.push(
+      ...react(overrides, parserOptions, {
+        framework: reactFrameworkOptions,
+      }),
+    )
   }
 
   if (

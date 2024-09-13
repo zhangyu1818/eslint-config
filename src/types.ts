@@ -12,3 +12,8 @@ export interface ReactFrameworkOptions {
   next?: boolean
   vite?: boolean
 }
+
+export interface ReactOptions {
+  a11y?: boolean
+  framework?: ReactFrameworkOptions
+}

@@ -1,11 +1,6 @@
-// @ts-expect-error - no types
-import * as eslintPluginUnicorn from 'eslint-plugin-unicorn'
-
-import { interopDefault } from '../utils'
+import pluginUnicorn from 'eslint-plugin-unicorn'
 
 import type { FlatESLintConfig, RulesOverrides } from '../types'
-
-const pluginUnicorn = interopDefault(eslintPluginUnicorn)
 
 export function unicorn(overrides: RulesOverrides): FlatESLintConfig[] {
   return [
