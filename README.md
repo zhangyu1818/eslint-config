@@ -11,7 +11,7 @@ pnpm i @zhangyu1818/eslint-config -D
 ```
 
 ```js
-// esling.config.js or esling.config.msj
+// esling.config.js or esling.config.mjs
 import { defineConfig } from '@zhangyu1818/eslint-config'
 
 export default defineConfig()
@@ -32,6 +32,11 @@ interface TsParserOptions {
 interface ReactFrameworkOptions {
   next?: boolean
   vite?: boolean
+}
+
+interface ReactOptions {
+  a11y?: boolean
+  framework?: ReactFrameworkOptions
 }
 
 interface Presets {
@@ -57,13 +62,30 @@ interface Presets {
 interface Options {
   parserOptions?: TsParserOptions
   presets?: Presets
-  reactFramework?: ReactFrameworkOptions
+  reactOptions?: ReactOptions
 }
 
 declare function defineConfig(
   options?: Options,
   userConfigs?: FlatESLintConfig[],
 ): FlatESLintConfig[]
+```
+
+## Default presets
+
+```typescript
+const defaultPresets: Presets = {
+  comments: true,
+  ignores: true,
+  imports: true,
+  javascript: true,
+  jsonc: true,
+  jsx: true,
+  perfectionist: true,
+  regexp: true,
+  sort: true,
+  unicorn: true,
+}
 ```
 
 ---
