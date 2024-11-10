@@ -45,9 +45,9 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
             },
             groups: [
               'builtin',
-              'external',
               'next',
               'react',
+              'external',
               'internal',
               'object',
               ['index', 'sibling', 'parent'],
