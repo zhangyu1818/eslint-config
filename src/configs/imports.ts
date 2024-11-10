@@ -1,4 +1,5 @@
-import * as eslintPluginImports from 'eslint-plugin-import-x'
+// @ts-expect-error - no types
+import * as eslintPluginImports from 'eslint-plugin-import'
 
 import { interopDefault } from '../utils'
 

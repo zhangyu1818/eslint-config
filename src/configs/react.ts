@@ -1,6 +1,5 @@
 // @ts-expect-error - no types
 import * as eslintPluginJSXA11y from 'eslint-plugin-jsx-a11y'
-// @ts-expect-error - no types
 import * as eslintPluginReact from 'eslint-plugin-react'
 // @ts-expect-error - no types
 import * as eslintPluginReactHook from 'eslint-plugin-react-hooks'
@@ -49,6 +48,7 @@ export function react(
       },
       plugins: {
         'jsx-a11y': pluginJSXA11y,
+        // @ts-expect-error - types not correct
         react: pluginReact,
         'react-hooks': pluginReactHook,
         'react-refresh': pluginReactRefresh,

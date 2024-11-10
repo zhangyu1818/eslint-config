@@ -6,6 +6,7 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
   return [
     {
       plugins: {
+        // @ts-expect-error - types not correct
         perfectionist: pluginPerfectionist,
       },
       rules: {

@@ -23,6 +23,7 @@ export function typescript(
         },
       },
       plugins: {
+        // @ts-expect-error - types not correct
         '@typescript-eslint': tseslint.plugin,
       },
       rules: {

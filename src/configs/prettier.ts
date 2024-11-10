@@ -11,7 +11,7 @@ const pluginPrettierRecommended = interopDefault(
 export function prettier(overrides: RulesOverrides): FlatESLintConfig[] {
   return [
     {
-      ...pluginPrettierRecommended,
+      ...pluginPrettierRecommended as FlatESLintConfig,
       rules: {
         ...pluginPrettierRecommended.rules,
         ...overrides,

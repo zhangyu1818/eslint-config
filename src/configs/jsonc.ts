@@ -17,6 +17,7 @@ export function jsonc(overrides: RulesOverrides = {}): FlatESLintConfig[] {
         parser: parserJsonc,
       },
       plugins: {
+        // @ts-expect-error - types not correct
         jsonc: pluginJsonc,
       },
       rules: {
