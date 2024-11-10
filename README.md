@@ -2,7 +2,7 @@
 
 Very opinionated Flat ESLint Config, but supports rules overrides.
 
-Support ESLint `^8.57.0` for `React`, `Next.js`, `TailwindCSS`, `Prettier`.
+Support ESLint `^9` for `React`, `Next.js`, `TailwindCSS`, `Prettier`.
 
 ## Usage
 
@@ -92,7 +92,7 @@ const defaultPresets: Presets = {
 
 ## TODO
 
-- [ ] Upgrade to ESLint v9, currently some plugins do not support ESLint v9.
+- [x] Upgrade to ESLint v9, currently some plugins do not support ESLint v9.
 - [ ] Change the configuration to dynamic on-demand imports to reduce dependencies of this package.
 - [ ] Add CLI tool.
 - [ ] Optimize packaging.
