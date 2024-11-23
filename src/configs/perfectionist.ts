@@ -13,6 +13,8 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
         'perfectionist/sort-classes': [
           'error',
           {
+            order: 'asc',
+            type: 'natural',
             groups: [
               'static-property',
               'index-signature',
@@ -26,21 +28,23 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
               'method',
               'unknown',
             ],
-            order: 'asc',
-            type: 'natural',
           },
         ],
         'perfectionist/sort-imports': [
           'error',
           {
+            internalPattern: ['^@/.*', '^~/.*'],
+            newlinesBetween: 'always',
+            order: 'asc',
+            type: 'natural',
             customGroups: {
               type: {
-                next: ['next', 'next/**'],
-                react: ['react', 'react-dom{,/*}'],
+                next: ['^next$', '^next/.*$'],
+                react: ['^react$', '^react-dom(/.*)?$'],
               },
               value: {
-                next: ['next', 'next/**'],
-                react: ['react', 'react-dom{,/*}'],
+                next: ['^next$', '^next/.*$'],
+                react: ['^react$', '^react-dom(/.*)?$'],
               },
             },
             groups: [
@@ -60,10 +64,6 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
               'side-effect-style',
               'unknown',
             ],
-            internalPattern: ['@/**'],
-            newlinesBetween: 'always',
-            order: 'asc',
-            type: 'natural',
           },
         ],
         'perfectionist/sort-interfaces': [
@@ -113,13 +113,14 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
         'perfectionist/sort-objects': [
           'error',
           {
-            customGroups: {
-              id: 'id',
-            },
-            groups: ['id', 'unknown'],
+            groups: ['top', 'unknown','multiline', 'method'],
             order: 'asc',
-            partitionByComment: 'Part:**',
+            partitionByComment: true,
+            partitionByNewLine: true,
             type: 'natural',
+            customGroups: {
+              top: ['^id$', '^name$', '^key$'],
+            },
           },
         ],
         'perfectionist/sort-union-types': [

@@ -37,14 +37,14 @@ export function react(
       files: [GLOB_JS, GLOB_JSX, GLOB_TS, GLOB_TSX],
       languageOptions: {
         parser: tseslint.parser,
+        sourceType: 'module',
         parserOptions: {
+          jsxPragma: null,
           ecmaFeatures: {
             jsx: true,
           },
-          jsxPragma: null,
           ...parserOptions,
         },
-        sourceType: 'module',
       },
       plugins: {
         'jsx-a11y': pluginJSXA11y,
@@ -55,19 +55,10 @@ export function react(
       },
       rules: {
         ...(a11y ? pluginJSXA11y.flatConfigs.recommended.rules : {}),
-        'react/function-component-definition': [
-          'error',
-          {
-            namedComponents: ['arrow-function', 'function-declaration'],
-            unnamedComponents: 'arrow-function',
-          },
-        ],
+        'react-hooks/exhaustive-deps': 'warn',
+        'react-hooks/rules-of-hooks': 'error',
         'react/jsx-boolean-value': 'error',
         'react/jsx-closing-bracket-location': 'error',
-        'react/jsx-curly-brace-presence': [
-          'error',
-          { children: 'never', propElementValues: 'always', props: 'never' },
-        ],
         'react/jsx-curly-newline': 'error',
         'react/jsx-curly-spacing': 'error',
         'react/jsx-equals-spacing': 'error',
@@ -77,15 +68,6 @@ export function react(
         'react/jsx-no-target-blank': 'error',
         'react/jsx-no-undef': 'error',
         'react/jsx-no-useless-fragment': 'error',
-        'react/jsx-sort-props': [
-          'error',
-          {
-            callbacksLast: true,
-            multiline: 'ignore',
-            reservedFirst: true,
-            shorthandFirst: true,
-          },
-        ],
         'react/jsx-uses-react': 'off',
         'react/jsx-uses-vars': 'error',
         'react/jsx-wrap-multilines': 'error',
@@ -103,6 +85,27 @@ export function react(
         'react/no-unstable-nested-components': 'error',
         'react/react-in-jsx-scope': 'off',
         'react/require-render-return': 'error',
+        'react/void-dom-elements-no-children': 'error',
+        'react/function-component-definition': [
+          'error',
+          {
+            namedComponents: ['arrow-function', 'function-declaration'],
+            unnamedComponents: 'arrow-function',
+          },
+        ],
+        'react/jsx-curly-brace-presence': [
+          'error',
+          { children: 'never', propElementValues: 'always', props: 'never' },
+        ],
+        'react/jsx-sort-props': [
+          'error',
+          {
+            callbacksLast: true,
+            multiline: 'ignore',
+            reservedFirst: true,
+            shorthandFirst: true,
+          },
+        ],
         'react/self-closing-comp': [
           'error',
           {
@@ -110,9 +113,6 @@ export function react(
             html: true,
           },
         ],
-        'react/void-dom-elements-no-children': 'error',
-        'react-hooks/exhaustive-deps': 'warn',
-        'react-hooks/rules-of-hooks': 'error',
         // react refresh
         'react-refresh/only-export-components': [
           'warn',

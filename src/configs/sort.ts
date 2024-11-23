@@ -15,6 +15,7 @@ export function sortPackageJson(): FlatESLintConfig[] {
         'jsonc/sort-keys': [
           'error',
           {
+            pathPattern: '^$',
             order: [
               'publisher',
               'name',
@@ -60,7 +61,6 @@ export function sortPackageJson(): FlatESLintConfig[] {
               'lint-staged',
               'eslintConfig',
             ],
-            pathPattern: '^$',
           },
           {
             order: { type: 'asc' },
@@ -76,6 +76,7 @@ export function sortPackageJson(): FlatESLintConfig[] {
             pathPattern: '^exports.*$',
           },
           {
+            pathPattern: '^(?:gitHooks|husky|simple-git-hooks)$',
             order: [
               // client hooks only
               'pre-commit',
@@ -89,7 +90,6 @@ export function sortPackageJson(): FlatESLintConfig[] {
               'pre-push',
               'pre-auto-gc',
             ],
-            pathPattern: '^(?:gitHooks|husky|simple-git-hooks)$',
           },
         ],
       },
@@ -110,6 +110,7 @@ export function sortTsconfig(): FlatESLintConfig[] {
         'jsonc/sort-keys': [
           'error',
           {
+            pathPattern: '^$',
             order: [
               'extends',
               'compilerOptions',
@@ -118,9 +119,9 @@ export function sortTsconfig(): FlatESLintConfig[] {
               'include',
               'exclude',
             ],
-            pathPattern: '^$',
           },
           {
+            pathPattern: '^compilerOptions$',
             order: [
               /* Projects */
               'incremental',
@@ -219,7 +220,6 @@ export function sortTsconfig(): FlatESLintConfig[] {
               'skipDefaultLibCheck',
               'skipLibCheck',
             ],
-            pathPattern: '^compilerOptions$',
           },
         ],
       },

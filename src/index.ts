@@ -30,23 +30,23 @@ import type {
 } from './types'
 
 export interface Presets {
-  comments?: RulesOverrides | boolean
+  comments?: boolean | RulesOverrides
   ignores?: boolean
-  imports?: RulesOverrides | boolean
-  javascript?: RulesOverrides | boolean
-  jsonc?: RulesOverrides | boolean
+  imports?: boolean | RulesOverrides
+  javascript?: boolean | RulesOverrides
+  jsonc?: boolean | RulesOverrides
   jsx?: boolean
-  next?: RulesOverrides | boolean
-  node?: RulesOverrides | boolean
-  perfectionist?: RulesOverrides | boolean
-  prettier?: RulesOverrides | boolean
-  react?: RulesOverrides | boolean
-  regexp?: RulesOverrides | boolean
+  next?: boolean | RulesOverrides
+  node?: boolean | RulesOverrides
+  perfectionist?: boolean | RulesOverrides
+  prettier?: boolean | RulesOverrides
+  react?: boolean | RulesOverrides
+  regexp?: boolean | RulesOverrides
   sort?: boolean
-  tailwindcss?: RulesOverrides | boolean
-  test?: RulesOverrides | boolean
-  typescript?: RulesOverrides | boolean
-  unicorn?: RulesOverrides | boolean
+  tailwindcss?: boolean | RulesOverrides
+  test?: boolean | RulesOverrides
+  typescript?: boolean | RulesOverrides
+  unicorn?: boolean | RulesOverrides
 }
 
 export interface Options {
@@ -197,7 +197,7 @@ export function defineConfig(
   return configs
 }
 
-function getRuleOverrides(rules: RulesOverrides | boolean) {
+function getRuleOverrides(rules: boolean | RulesOverrides) {
   if (typeof rules === 'boolean') {
     return {} as RulesOverrides
   }

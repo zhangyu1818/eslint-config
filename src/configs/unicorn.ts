@@ -14,12 +14,6 @@ export function unicorn(overrides: RulesOverrides): FlatESLintConfig[] {
         'unicorn/empty-brace-spaces': 'error',
         'unicorn/error-message': 'error',
         'unicorn/escape-case': 'error',
-        'unicorn/explicit-length-check': [
-          'error',
-          {
-            'non-zero': 'not-equal',
-          },
-        ],
         'unicorn/new-for-builtins': 'error',
         'unicorn/no-anonymous-default-export': 'error',
         'unicorn/no-await-expression-member': 'error',
@@ -40,6 +34,12 @@ export function unicorn(overrides: RulesOverrides): FlatESLintConfig[] {
         'unicorn/prefer-string-starts-ends-with': 'error',
         'unicorn/prefer-type-error': 'error',
         'unicorn/throw-new-error': 'error',
+        'unicorn/explicit-length-check': [
+          'error',
+          {
+            'non-zero': 'not-equal',
+          },
+        ],
         ...overrides,
       },
     },

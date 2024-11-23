@@ -30,33 +30,9 @@ export function typescript(
         '@typescript-eslint/adjacent-overload-signatures': 'off',
         '@typescript-eslint/array-type': 'error',
         '@typescript-eslint/await-thenable': 'warn',
-        '@typescript-eslint/ban-ts-comment': [
-          'error',
-          {
-            minimumDescriptionLength: 3,
-            'ts-check': false,
-            'ts-expect-error': 'allow-with-description',
-            'ts-ignore': true,
-            'ts-nocheck': true,
-          },
-        ],
         '@typescript-eslint/consistent-generic-constructors': 'error',
         '@typescript-eslint/consistent-indexed-object-style': 'error',
         '@typescript-eslint/consistent-type-definitions': 'warn',
-        '@typescript-eslint/consistent-type-exports': [
-          'error',
-          {
-            fixMixedExportsWithInlineTypeSpecifier: true,
-          },
-        ],
-        '@typescript-eslint/consistent-type-imports': [
-          'error',
-          {
-            disallowTypeAnnotations: false,
-            fixStyle: 'separate-type-imports',
-            prefer: 'type-imports',
-          },
-        ],
         '@typescript-eslint/explicit-member-accessibility': 'error',
         '@typescript-eslint/method-signature-style': 'error',
         '@typescript-eslint/no-array-constructor': 'error',
@@ -110,6 +86,30 @@ export function typescript(
         'no-undef': 'off',
         'no-unused-vars': 'off',
         'no-useless-constructor': 'off',
+        '@typescript-eslint/ban-ts-comment': [
+          'error',
+          {
+            minimumDescriptionLength: 3,
+            'ts-check': false,
+            'ts-expect-error': 'allow-with-description',
+            'ts-ignore': true,
+            'ts-nocheck': true,
+          },
+        ],
+        '@typescript-eslint/consistent-type-exports': [
+          'error',
+          {
+            fixMixedExportsWithInlineTypeSpecifier: true,
+          },
+        ],
+        '@typescript-eslint/consistent-type-imports': [
+          'error',
+          {
+            disallowTypeAnnotations: false,
+            fixStyle: 'separate-type-imports',
+            prefer: 'type-imports',
+          },
+        ],
         ...overrides,
       },
     },
