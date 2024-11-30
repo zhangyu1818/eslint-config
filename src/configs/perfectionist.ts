@@ -6,7 +6,6 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
   return [
     {
       plugins: {
-        // @ts-expect-error - types not correct
         perfectionist: pluginPerfectionist,
       },
       rules: {
@@ -41,16 +40,22 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
               type: {
                 next: ['^next$', '^next/.*$'],
                 react: ['^react$', '^react-dom(/.*)?$'],
+                reactThree: ['^@react-three/.*$'],
+                three: ['^three$', '^three/.*$'],
               },
               value: {
                 next: ['^next$', '^next/.*$'],
                 react: ['^react$', '^react-dom(/.*)?$'],
+                reactThree: ['^@react-three/.*$'],
+                three: ['^three$', '^three/.*$'],
               },
             },
             groups: [
               'builtin',
               'next',
               'react',
+              'three',
+              'reactThree',
               'external',
               'internal',
               'object',
