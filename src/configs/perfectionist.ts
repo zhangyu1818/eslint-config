@@ -118,7 +118,7 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
         'perfectionist/sort-objects': [
           'error',
           {
-            groups: ['top', 'unknown','multiline', 'method'],
+            groups: ['top', 'unknown', 'multiline', 'method'],
             order: 'asc',
             partitionByComment: true,
             partitionByNewLine: true,
