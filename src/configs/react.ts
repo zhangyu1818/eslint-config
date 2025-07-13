@@ -1,9 +1,7 @@
 // @ts-expect-error - no types
 import * as eslintPluginJSXA11y from 'eslint-plugin-jsx-a11y'
 import * as eslintPluginReact from 'eslint-plugin-react'
-// @ts-expect-error - no types
 import * as eslintPluginReactHook from 'eslint-plugin-react-hooks'
-// @ts-expect-error - no types
 import * as eslintPluginReactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 
@@ -36,6 +34,7 @@ export function react(
     {
       files: [GLOB_JS, GLOB_JSX, GLOB_TS, GLOB_TSX],
       languageOptions: {
+        // @ts-expect-error - types not correct
         parser: tseslint.parser,
         sourceType: 'module',
         parserOptions: {
@@ -48,7 +47,6 @@ export function react(
       },
       plugins: {
         'jsx-a11y': pluginJSXA11y,
-        // @ts-expect-error - types not correct
         react: pluginReact,
         'react-hooks': pluginReactHook,
         'react-refresh': pluginReactRefresh,

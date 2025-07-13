@@ -20,9 +20,10 @@ export default defineConfig()
 ## API
 
 ```ts
-import { FlatESLintConfig } from 'eslint-define-config'
+import type { Linter } from 'eslint'
 
-type RulesOverrides = FlatESLintConfig['rules']
+type FlatESLintConfig = Linter.Config
+type RulesOverrides = Linter.Config['rules']
 
 interface TsParserOptions {
   project?: boolean | string | string[]
@@ -39,36 +40,42 @@ interface ReactOptions {
   framework?: ReactFrameworkOptions
 }
 
+interface TailwindCSSOptions {
+  entryPoint?: string
+  tailwindConfig?: string
+}
+
 interface Presets {
-  comments?: RulesOverrides | boolean
+  comments?: boolean | RulesOverrides
   ignores?: boolean
-  imports?: RulesOverrides | boolean
-  javascript?: RulesOverrides | boolean
-  jsonc?: RulesOverrides | boolean
+  imports?: boolean | RulesOverrides
+  javascript?: boolean | RulesOverrides
+  jsonc?: boolean | RulesOverrides
   jsx?: boolean
-  next?: RulesOverrides | boolean
-  node?: RulesOverrides | boolean
-  perfectionist?: RulesOverrides | boolean
-  prettier?: RulesOverrides | boolean
-  react?: RulesOverrides | boolean
-  regexp?: RulesOverrides | boolean
+  next?: boolean | RulesOverrides
+  node?: boolean | RulesOverrides
+  perfectionist?: boolean | RulesOverrides
+  prettier?: boolean | RulesOverrides
+  react?: boolean | RulesOverrides
+  regexp?: boolean | RulesOverrides
   sort?: boolean
-  tailwindcss?: RulesOverrides | boolean
-  test?: RulesOverrides | boolean
-  typescript?: RulesOverrides | boolean
-  unicorn?: RulesOverrides | boolean
+  tailwindcss?: boolean | RulesOverrides
+  test?: boolean | RulesOverrides
+  typescript?: boolean | RulesOverrides
+  unicorn?: boolean | RulesOverrides
 }
 
 interface Options {
   parserOptions?: TsParserOptions
   presets?: Presets
   reactOptions?: ReactOptions
+  tailwindcssOptions?: TailwindCSSOptions
 }
 
 declare function defineConfig(
   options?: Options,
   userConfigs?: FlatESLintConfig[],
-): FlatESLintConfig[]
+): Promise<FlatESLintConfig[]>
 ```
 
 ## Default presets

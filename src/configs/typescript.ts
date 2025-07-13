@@ -16,6 +16,7 @@ export function typescript(
     {
       files: [GLOB_TS, GLOB_TSX],
       languageOptions: {
+        // @ts-expect-error - types not correct
         parser: tseslint.parser,
         parserOptions: {
           ...parserOptions,

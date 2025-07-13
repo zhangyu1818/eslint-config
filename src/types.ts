@@ -1,8 +1,9 @@
-import type { FlatESLintConfig } from 'eslint-define-config'
+import type { Linter } from 'eslint'
 
-export type { FlatESLintConfig }
+export type FlatESLintConfig = Linter.Config
 
-export type RulesOverrides = FlatESLintConfig['rules']
+export type RulesOverrides = Linter.Config['rules']
+
 export interface TsParserOptions {
   project?: boolean | string | string[]
   tsconfigRootDir?: string
@@ -16,4 +17,9 @@ export interface ReactFrameworkOptions {
 export interface ReactOptions {
   a11y?: boolean
   framework?: ReactFrameworkOptions
+}
+
+export interface TailwindCSSOptions {
+  entryPoint?: string
+  tailwindConfig?: string
 }

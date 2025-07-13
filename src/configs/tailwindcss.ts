@@ -1,34 +1,62 @@
-// @ts-expect-error - no types
-import * as eslintPluginTailwindcss from 'eslint-plugin-tailwindcss'
+// eslint-disable-next-line node/prefer-global/process
+import process from 'node:process'
+
+import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss'
+import { MatcherType } from 'eslint-plugin-better-tailwindcss/api/types'
 
 import { GLOB_JS, GLOB_JSX, GLOB_TS, GLOB_TSX } from '../globs'
-import { interopDefault } from '../utils'
 
-import type { FlatESLintConfig, RulesOverrides } from '../types'
+import type {
+  FlatESLintConfig,
+  RulesOverrides,
+  TailwindCSSOptions,
+} from '../types'
 
-const pluginTailwindcss = interopDefault(eslintPluginTailwindcss)
+const cwd = process.cwd()
 
 export function tailwindcss(
+  options?: TailwindCSSOptions,
   overrides: RulesOverrides = {},
 ): FlatESLintConfig[] {
-  const option = {
-    callees: ['classnames', 'clsx', 'ctl', 'cva', 'tv'],
-    tags: ['tw'],
-  }
+  const { entryPoint = `${cwd}/src/app/globals.css`, tailwindConfig } =
+    options ?? {}
   return [
     {
       files: [GLOB_JS, GLOB_JSX, GLOB_TS, GLOB_TSX],
       plugins: {
-        tailwindcss: pluginTailwindcss,
+        'better-tailwindcss': eslintPluginBetterTailwindcss,
       },
       rules: {
-        'tailwindcss/classnames-order': ['error', option],
-        'tailwindcss/enforces-negative-arbitrary-values': 'off',
-        'tailwindcss/enforces-shorthand': ['error', option],
-        'tailwindcss/no-arbitrary-value': 'off',
-        'tailwindcss/no-contradicting-classname': ['error', option],
-        'tailwindcss/no-unnecessary-arbitrary-value': ['error', option],
+        'better-tailwindcss/enforce-consistent-class-order': 'error',
+        'better-tailwindcss/enforce-consistent-line-wrapping': 'error',
+        'better-tailwindcss/enforce-consistent-variable-syntax': 'error',
+        'better-tailwindcss/enforce-shorthand-classes': 'error',
+        'better-tailwindcss/no-conflicting-classes': 'error',
+        'better-tailwindcss/no-duplicate-classes': 'error',
+        'better-tailwindcss/no-unnecessary-whitespace': 'error',
+        'better-tailwindcss/no-unregistered-classes': [
+          'error',
+          {
+            detectComponentClasses: true,
+            ignore: [],
+          },
+        ],
+
         ...overrides,
+      },
+      settings: {
+        'better-tailwindcss': {
+          entryPoint,
+          tailwindConfig,
+          tags: [
+            'tw',
+            [
+              {
+                match: MatcherType.String,
+              },
+            ],
+          ],
+        },
       },
     },
   ]

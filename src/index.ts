@@ -5,6 +5,7 @@ import type {
   ReactFrameworkOptions,
   ReactOptions,
   RulesOverrides,
+  TailwindCSSOptions,
   TsParserOptions,
 } from './types'
 
@@ -32,6 +33,7 @@ export interface Options {
   parserOptions?: TsParserOptions
   presets?: Presets
   reactOptions?: ReactOptions
+  tailwindcssOptions?: TailwindCSSOptions
 }
 
 const defaultPresets: Presets = {
@@ -184,7 +186,7 @@ export async function defineConfig(
   if (presets.tailwindcss) {
     const overrides = getRuleOverrides(presets.tailwindcss)
     const { tailwindcss } = await import('./configs/tailwindcss')
-    configs.push(...tailwindcss(overrides))
+    configs.push(...tailwindcss(options.tailwindcssOptions, overrides))
   }
 
   if (userConfigs) {
