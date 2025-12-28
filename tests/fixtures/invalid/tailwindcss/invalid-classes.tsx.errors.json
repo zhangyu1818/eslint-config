@@ -1,0 +1,5 @@
+[
+  { "ruleId": "better-tailwindcss/no-duplicate-classes" },
+  { "ruleId": "better-tailwindcss/no-unnecessary-whitespace" },
+  { "ruleId": "better-tailwindcss/no-conflicting-classes" }
+]

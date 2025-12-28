@@ -3,17 +3,13 @@ import * as eslintPluginJSXA11y from 'eslint-plugin-jsx-a11y'
 import * as eslintPluginReact from 'eslint-plugin-react'
 import * as eslintPluginReactHook from 'eslint-plugin-react-hooks'
 import * as eslintPluginReactRefresh from 'eslint-plugin-react-refresh'
+import { isPackageExists } from 'local-pkg'
 import tseslint from 'typescript-eslint'
 
 import { GLOB_JS, GLOB_JSX, GLOB_TS, GLOB_TSX } from '../globs'
 import { interopDefault } from '../utils'
 
-import type {
-  FlatESLintConfig,
-  ReactOptions,
-  RulesOverrides,
-  TsParserOptions,
-} from '../types'
+import type { FlatESLintConfig, ReactOptions, RulesOverrides } from '../types'
 
 const pluginReact = interopDefault(eslintPluginReact)
 const pluginReactHook = interopDefault(eslintPluginReactHook)
@@ -21,20 +17,24 @@ const pluginReactRefresh = interopDefault(eslintPluginReactRefresh)
 const pluginJSXA11y = interopDefault(eslintPluginJSXA11y)
 
 export function react(
-  overrides: RulesOverrides,
-  parserOptions: TsParserOptions,
+  overrides: RulesOverrides = {},
   options: ReactOptions = {},
 ): FlatESLintConfig[] {
   const {
     a11y = true,
-    framework: { next: isUsingNext, vite: isUsingVite } = {},
+    version = 'detect',
+    framework = {
+      next: isPackageExists('next'),
+      vite: isPackageExists('vite'),
+    },
   } = options
+
+  const { next: isUsingNext, vite: isUsingVite } = framework
 
   return [
     {
       files: [GLOB_JS, GLOB_JSX, GLOB_TS, GLOB_TSX],
       languageOptions: {
-        // @ts-expect-error - types not correct
         parser: tseslint.parser,
         sourceType: 'module',
         parserOptions: {
@@ -42,12 +42,12 @@ export function react(
           ecmaFeatures: {
             jsx: true,
           },
-          ...parserOptions,
         },
       },
       plugins: {
         'jsx-a11y': pluginJSXA11y,
         react: pluginReact,
+        // @ts-expect-error  type error
         'react-hooks': pluginReactHook,
         'react-refresh': pluginReactRefresh,
       },
@@ -84,6 +84,30 @@ export function react(
         'react/react-in-jsx-scope': 'off',
         'react/require-render-return': 'error',
         'react/void-dom-elements-no-children': 'error',
+        'react-refresh/only-export-components': [
+          'warn',
+          {
+            allowConstantExport: isUsingVite,
+            allowExportNames: [
+              ...(isUsingNext
+                ? [
+                    'dynamic',
+                    'dynamicParams',
+                    'revalidate',
+                    'fetchCache',
+                    'runtime',
+                    'preferredRegion',
+                    'maxDuration',
+                    'generateStaticParams',
+                    'metadata',
+                    'generateMetadata',
+                    'viewport',
+                    'generateViewport',
+                  ]
+                : []),
+            ],
+          },
+        ],
         'react/function-component-definition': [
           'error',
           {
@@ -111,36 +135,11 @@ export function react(
             html: true,
           },
         ],
-        // react refresh
-        'react-refresh/only-export-components': [
-          'warn',
-          {
-            allowConstantExport: isUsingVite,
-            allowExportNames: [
-              ...(isUsingNext
-                ? [
-                    'dynamic',
-                    'dynamicParams',
-                    'revalidate',
-                    'fetchCache',
-                    'runtime',
-                    'preferredRegion',
-                    'maxDuration',
-                    'generateStaticParams',
-                    'metadata',
-                    'generateMetadata',
-                    'viewport',
-                    'generateViewport',
-                  ]
-                : []),
-            ],
-          },
-        ],
         ...overrides,
       },
       settings: {
         react: {
-          version: 'detect',
+          version,
         },
       },
     },

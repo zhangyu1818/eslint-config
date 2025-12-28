@@ -1,39 +1,37 @@
 import { isPackageExists } from 'local-pkg'
 
+import { parsePresetConfig } from './utils'
+
 import type {
   FlatESLintConfig,
-  ReactFrameworkOptions,
+  PresetConfig,
   ReactOptions,
-  RulesOverrides,
   TailwindCSSOptions,
-  TsParserOptions,
+  TypeScriptOptions,
 } from './types'
 
 export interface Presets {
-  comments?: boolean | RulesOverrides
+  comments?: boolean | PresetConfig
   ignores?: boolean
-  imports?: boolean | RulesOverrides
-  javascript?: boolean | RulesOverrides
-  jsonc?: boolean | RulesOverrides
+  imports?: boolean | PresetConfig
+  javascript?: boolean | PresetConfig
+  jsonc?: boolean | PresetConfig
   jsx?: boolean
-  next?: boolean | RulesOverrides
-  node?: boolean | RulesOverrides
-  perfectionist?: boolean | RulesOverrides
-  prettier?: boolean | RulesOverrides
-  react?: boolean | RulesOverrides
-  regexp?: boolean | RulesOverrides
+  next?: boolean | PresetConfig
+  node?: boolean | PresetConfig
+  perfectionist?: boolean | PresetConfig
+  prettier?: boolean | PresetConfig
+  react?: boolean | PresetConfig<ReactOptions>
+  regexp?: boolean | PresetConfig
   sort?: boolean
-  tailwindcss?: boolean | RulesOverrides
-  test?: boolean | RulesOverrides
-  typescript?: boolean | RulesOverrides
-  unicorn?: boolean | RulesOverrides
+  tailwindcss?: boolean | PresetConfig<TailwindCSSOptions>
+  test?: boolean | PresetConfig
+  typescript?: boolean | PresetConfig<TypeScriptOptions>
+  unicorn?: boolean | PresetConfig
 }
 
 export interface Options {
-  parserOptions?: TsParserOptions
   presets?: Presets
-  reactOptions?: ReactOptions
-  tailwindcssOptions?: TailwindCSSOptions
 }
 
 const defaultPresets: Presets = {
@@ -63,22 +61,6 @@ export async function defineConfig(
     ...options.presets,
   }
 
-  const parserOptions: TsParserOptions = {
-    ...(presets.typescript
-      ? {
-          project: true,
-          tsconfigRootDir: process.cwd(),
-        }
-      : {}),
-    ...options.parserOptions,
-  }
-
-  const reactFrameworkOptions: ReactFrameworkOptions = options.reactOptions
-    ?.framework ?? {
-    next: isPackageExists('next'),
-    vite: isPackageExists('vite'),
-  }
-
   const configs: FlatESLintConfig[] = []
 
   if (presets.ignores) {
@@ -88,50 +70,66 @@ export async function defineConfig(
 
   if (presets.comments) {
     const { comments } = await import('./configs/comments')
-    const overrides = getRuleOverrides(presets.comments)
-    configs.push(...comments(overrides))
+    const { enabled, rules } = parsePresetConfig(presets.comments)
+    if (enabled) {
+      configs.push(...comments(rules))
+    }
   }
 
   if (presets.unicorn) {
-    const overrides = getRuleOverrides(presets.unicorn)
     const { unicorn } = await import('./configs/unicorn')
-    configs.push(...unicorn(overrides))
+    const { enabled, rules } = parsePresetConfig(presets.unicorn)
+    if (enabled) {
+      configs.push(...unicorn(rules))
+    }
   }
 
   if (presets.perfectionist) {
-    const overrides = getRuleOverrides(presets.perfectionist)
     const { perfectionist } = await import('./configs/perfectionist')
-    configs.push(...perfectionist(overrides))
+    const { enabled, rules } = parsePresetConfig(presets.perfectionist)
+    if (enabled) {
+      configs.push(...perfectionist(rules))
+    }
   }
 
   if (presets.imports) {
-    const overrides = getRuleOverrides(presets.imports)
     const { imports } = await import('./configs/imports')
-    configs.push(...imports(overrides))
+    const { enabled, rules } = parsePresetConfig(presets.imports)
+    if (enabled) {
+      configs.push(...imports(rules))
+    }
   }
 
   if (presets.jsonc) {
-    const overrides = getRuleOverrides(presets.jsonc)
     const { jsonc } = await import('./configs/jsonc')
-    configs.push(...jsonc(overrides))
+    const { enabled, rules } = parsePresetConfig(presets.jsonc)
+    if (enabled) {
+      configs.push(...jsonc(rules))
+    }
   }
 
   if (presets.regexp) {
-    const overrides = getRuleOverrides(presets.regexp)
     const { regexp } = await import('./configs/regexp')
-    configs.push(...regexp(overrides))
+    const { enabled, rules } = parsePresetConfig(presets.regexp)
+    if (enabled) {
+      configs.push(...regexp(rules))
+    }
   }
 
   if (presets.javascript) {
-    const overrides = getRuleOverrides(presets.javascript)
     const { javascript } = await import('./configs/javascript')
-    configs.push(...javascript(overrides))
+    const { enabled, rules } = parsePresetConfig(presets.javascript)
+    if (enabled) {
+      configs.push(...javascript(rules))
+    }
   }
 
   if (presets.node) {
-    const overrides = getRuleOverrides(presets.node)
     const { node } = await import('./configs/node')
-    configs.push(...node(overrides))
+    const { enabled, rules } = parsePresetConfig(presets.node)
+    if (enabled) {
+      configs.push(...node(rules))
+    }
   }
 
   if (presets.jsx) {
@@ -140,34 +138,43 @@ export async function defineConfig(
   }
 
   if (presets.typescript) {
-    const overrides = getRuleOverrides(presets.typescript)
     const { typescript } = await import('./configs/typescript')
-    configs.push(...typescript(overrides, parserOptions))
+    const {
+      enabled,
+      options: tsOptions,
+      rules,
+    } = parsePresetConfig<TypeScriptOptions>(presets.typescript)
+    if (enabled) {
+      configs.push(...typescript(tsOptions, rules))
+    }
   }
 
   if (presets.react) {
-    const overrides = getRuleOverrides(presets.react)
     const { react } = await import('./configs/react')
-    configs.push(
-      ...react(overrides, parserOptions, {
-        framework: reactFrameworkOptions,
-      }),
-    )
+    const {
+      enabled,
+      options: reactOptions,
+      rules,
+    } = parsePresetConfig<ReactOptions>(presets.react)
+    if (enabled) {
+      configs.push(...react(rules, reactOptions))
+    }
   }
 
-  if (
-    (reactFrameworkOptions.next && presets.next !== false) ||
-    !!presets.next
-  ) {
-    const overrides = getRuleOverrides(presets.next)
+  if (presets.next) {
     const { next } = await import('./configs/next')
-    configs.push(...next(overrides))
+    const { enabled, rules } = parsePresetConfig(presets.next)
+    if (enabled) {
+      configs.push(...next(rules))
+    }
   }
 
   if (presets.test) {
-    const overrides = getRuleOverrides(presets.test)
     const { test } = await import('./configs/test')
-    configs.push(...test(overrides))
+    const { enabled, rules } = parsePresetConfig(presets.test)
+    if (enabled) {
+      configs.push(...test(rules))
+    }
   }
 
   if (presets.sort) {
@@ -177,16 +184,24 @@ export async function defineConfig(
     configs.push(...sortTsconfig())
   }
 
-  if (presets.prettier) {
-    const overrides = getRuleOverrides(presets.prettier)
-    const { prettier } = await import('./configs/prettier')
-    configs.push(...prettier(overrides))
+  if (presets.tailwindcss) {
+    const { tailwindcss } = await import('./configs/tailwindcss')
+    const {
+      enabled,
+      options: tailwindOptions,
+      rules,
+    } = parsePresetConfig<TailwindCSSOptions>(presets.tailwindcss)
+    if (enabled) {
+      configs.push(...tailwindcss(tailwindOptions, rules))
+    }
   }
 
-  if (presets.tailwindcss) {
-    const overrides = getRuleOverrides(presets.tailwindcss)
-    const { tailwindcss } = await import('./configs/tailwindcss')
-    configs.push(...tailwindcss(options.tailwindcssOptions, overrides))
+  if (presets.prettier) {
+    const { prettier } = await import('./configs/prettier')
+    const { enabled, rules } = parsePresetConfig(presets.prettier)
+    if (enabled) {
+      configs.push(...prettier(rules))
+    }
   }
 
   if (userConfigs) {
@@ -194,11 +209,4 @@ export async function defineConfig(
   }
 
   return configs
-}
-
-function getRuleOverrides(rules: boolean | RulesOverrides) {
-  if (typeof rules === 'boolean') {
-    return {} as RulesOverrides
-  }
-  return rules
 }

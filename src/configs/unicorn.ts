@@ -18,7 +18,7 @@ export function unicorn(overrides: RulesOverrides): FlatESLintConfig[] {
         'unicorn/no-anonymous-default-export': 'error',
         'unicorn/no-await-expression-member': 'error',
         'unicorn/no-await-in-promise-methods': 'error',
-        'unicorn/no-instanceof-array': 'error',
+        'unicorn/no-instanceof-builtins': 'error',
         'unicorn/no-new-array': 'error',
         'unicorn/no-new-buffer': 'error',
         'unicorn/no-useless-length-check': 'error',

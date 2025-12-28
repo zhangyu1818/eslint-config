@@ -1,0 +1,7 @@
+[
+  { "ruleId": "react/no-unknown-property" },
+  { "ruleId": "react/self-closing-comp" },
+  { "ruleId": "react/jsx-no-target-blank" },
+  { "ruleId": "react/no-unescaped-entities" },
+  { "ruleId": "react/jsx-curly-brace-presence" }
+]

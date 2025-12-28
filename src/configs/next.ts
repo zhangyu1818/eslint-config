@@ -1,4 +1,3 @@
-// @ts-expect-error - from eslint-config-next
 import nextPlugin from '@next/eslint-plugin-next'
 
 import { GLOB_JS, GLOB_JSX, GLOB_TS, GLOB_TSX } from '../globs'
@@ -15,6 +14,7 @@ export function next(overrides: RulesOverrides): FlatESLintConfig[] {
       rules: {
         ...nextPlugin.configs.recommended.rules,
         ...nextPlugin.configs['core-web-vitals'].rules,
+        '@next/next/no-html-link-for-pages': 'off',
         ...overrides,
       },
     },

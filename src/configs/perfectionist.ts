@@ -33,37 +33,40 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
           'error',
           {
             internalPattern: ['^@/.*', '^~/.*'],
-            newlinesBetween: 'always',
+            newlinesBetween: 1,
             order: 'asc',
             type: 'natural',
-            customGroups: {
-              type: {
-                next: ['^next$', '^next/.*$'],
-                react: ['^react$', '^react-dom(/.*)?$'],
-                reactThree: ['^@react-three/.*$'],
-                three: ['^three$', '^three/.*$'],
+            customGroups: [
+              {
+                elementNamePattern: ['^next$', '^next/.*$'],
+                groupName: 'next',
               },
-              value: {
-                next: ['^next$', '^next/.*$'],
-                react: ['^react$', '^react-dom(/.*)?$'],
-                reactThree: ['^@react-three/.*$'],
-                three: ['^three$', '^three/.*$'],
+              {
+                elementNamePattern: ['^react$', '^react-dom(/.*)?$'],
+                groupName: 'react',
               },
-            },
+              {
+                elementNamePattern: ['^three$', '^three/.*$'],
+                groupName: 'three',
+              },
+              {
+                elementNamePattern: ['^@react-three/.*$'],
+                groupName: 'reactThree',
+              },
+            ],
             groups: [
-              'builtin',
+              'value-builtin',
               'next',
               'react',
               'three',
               'reactThree',
-              'external',
-              'internal',
-              'object',
-              ['index', 'sibling', 'parent'],
-              'builtin-type',
-              'external-type',
-              'internal-type',
-              ['index-type', 'sibling-type', 'parent-type'],
+              'value-external',
+              'value-internal',
+              ['value-index', 'value-sibling', 'value-parent'],
+              'type-builtin',
+              'type-external',
+              'type-internal',
+              ['type-index', 'type-sibling', 'type-parent'],
               'style',
               'side-effect',
               'side-effect-style',
@@ -95,7 +98,7 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
         'perfectionist/sort-named-exports': [
           'error',
           {
-            groupKind: 'values-first',
+            groups: ['value-export', 'type-export'],
             order: 'asc',
             type: 'natural',
           },
@@ -103,7 +106,7 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
         'perfectionist/sort-named-imports': [
           'error',
           {
-            groupKind: 'values-first',
+            groups: ['value-import', 'type-import'],
             order: 'asc',
             type: 'natural',
           },
@@ -118,14 +121,17 @@ export function perfectionist(overrides: RulesOverrides): FlatESLintConfig[] {
         'perfectionist/sort-objects': [
           'error',
           {
-            groups: ['top', 'unknown', 'multiline', 'method'],
+            groups: ['top', 'unknown', 'multiline-member', 'method'],
             order: 'asc',
             partitionByComment: true,
             partitionByNewLine: true,
             type: 'natural',
-            customGroups: {
-              top: ['^id$', '^name$', '^key$'],
-            },
+            customGroups: [
+              {
+                elementNamePattern: ['^id$', '^name$', '^key$'],
+                groupName: 'top',
+              },
+            ],
           },
         ],
         'perfectionist/sort-union-types': [
