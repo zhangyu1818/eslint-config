@@ -48,7 +48,8 @@ describe('defineConfig', () => {
     const mainConfig = tsConfigs[0]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const parserOptions = mainConfig.languageOptions!.parserOptions! as any
-    expect(parserOptions.project).toBe('tsconfig.custom.json')
+    // Project should be resolved to absolute path
+    expect(parserOptions.project).toBe('/custom/path/tsconfig.custom.json')
     expect(parserOptions.tsconfigRootDir).toBe('/custom/path')
   })
 

@@ -1,3 +1,4 @@
+import { isAbsolute, resolve } from 'node:path'
 // eslint-disable-next-line node/prefer-global/process
 import process from 'node:process'
 
@@ -13,6 +14,17 @@ import type {
 } from '../types'
 
 const cwd = process.cwd()
+
+const resolvePath = (
+  path: boolean | string | string[],
+  rootDir: string,
+): boolean | string | string[] => {
+  if (typeof path === 'boolean') return path
+  if (Array.isArray(path)) {
+    return path.map((p) => (isAbsolute(p) ? p : resolve(rootDir, p)))
+  }
+  return isAbsolute(path) ? path : resolve(rootDir, path)
+}
 
 const createTypeScriptRules = (
   overrides: RulesOverrides = {},
@@ -158,20 +170,23 @@ export function typescript(
   if (packages && packages.length !== 0) {
     validatePackages(packages, 'typescript', ['files'])
 
-    const packageConfigs = packages.map((pkg) =>
-      createMainConfig(
-        pkg.files,
-        pkg.project ?? project,
-        pkg.tsconfigRootDir ?? tsconfigRootDir,
-        overrides,
-      ),
-    )
+    const packageConfigs = packages.map((pkg) => {
+      const rootDir = pkg.tsconfigRootDir ?? tsconfigRootDir
+      const resolvedProject = resolvePath(pkg.project ?? project, rootDir)
+
+      return createMainConfig(pkg.files, resolvedProject, rootDir, overrides)
+    })
 
     return [...packageConfigs, ...createAdditionalConfigs()]
   }
 
   return [
-    createMainConfig([GLOB_TS, GLOB_TSX], project, tsconfigRootDir, overrides),
+    createMainConfig(
+      [GLOB_TS, GLOB_TSX],
+      resolvePath(project, tsconfigRootDir),
+      tsconfigRootDir,
+      overrides,
+    ),
     ...createAdditionalConfigs(),
   ]
 }

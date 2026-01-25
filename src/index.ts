@@ -10,6 +10,17 @@ import type {
   TypeScriptOptions,
 } from './types'
 
+// Re-export types
+export type {
+  FlatESLintConfig,
+  PresetConfig,
+  ReactOptions,
+  TailwindCSSOptions,
+  TailwindCSSPackageConfig,
+  TypeScriptOptions,
+  TypeScriptPackageConfig,
+} from './types'
+
 export interface Presets {
   comments?: boolean | PresetConfig
   ignores?: boolean

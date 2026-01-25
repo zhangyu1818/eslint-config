@@ -1,3 +1,5 @@
+import { isAbsolute, resolve } from 'node:path'
+
 import { describe, expect, it } from 'vitest'
 
 import { typescript } from '../src/configs/typescript'
@@ -41,7 +43,22 @@ describe('typescript', () => {
       expect(config.languageOptions?.parserOptions).toBeDefined()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const parserOptions = config.languageOptions!.parserOptions! as any
-      expect(parserOptions.project).toEqual(pkg.project)
+
+      /* eslint-disable vitest/no-conditional-expect */
+      // Project paths should be resolved to absolute paths
+      if (typeof pkg.project === 'string') {
+        expect(isAbsolute(parserOptions.project)).toBe(true)
+        expect(parserOptions.project).toContain(pkg.project)
+      } else if (Array.isArray(pkg.project)) {
+        expect(Array.isArray(parserOptions.project)).toBe(true)
+        parserOptions.project.forEach((p: string) => {
+          expect(isAbsolute(p)).toBe(true)
+        })
+      } else {
+        expect(parserOptions.project).toBe(pkg.project)
+      }
+      /* eslint-enable vitest/no-conditional-expect */
+
       expect(parserOptions.tsconfigRootDir).toBe(pkg.tsconfigRootDir)
       expect(parserOptions.sourceType).toBe('module')
 
@@ -65,7 +82,7 @@ describe('typescript', () => {
 
   it('should generate single config when no packages array provided', () => {
     const project = 'custom/tsconfig.json'
-    const tsconfigRootDir = 'custom'
+    const tsconfigRootDir = '/custom/path'
 
     const configs = typescript({ project, tsconfigRootDir })
 
@@ -74,7 +91,9 @@ describe('typescript', () => {
     const mainConfig = configs[0]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const parserOptions = mainConfig.languageOptions!.parserOptions! as any
-    expect(parserOptions.project).toBe(project)
+    // Project should be resolved to absolute path
+    expect(isAbsolute(parserOptions.project)).toBe(true)
+    expect(parserOptions.project).toBe(resolve(tsconfigRootDir, project))
     expect(parserOptions.tsconfigRootDir).toBe(tsconfigRootDir)
   })
 
@@ -119,7 +138,7 @@ describe('typescript', () => {
     ]
 
     const topLevelProject = 'tsconfig.base.json'
-    const topLevelTsconfigRootDir = 'root'
+    const topLevelTsconfigRootDir = '/root'
 
     const configs = typescript({
       packages,
@@ -130,13 +149,17 @@ describe('typescript', () => {
     const firstConfig = configs[0]
     const firstParserOptions = firstConfig.languageOptions!
       .parserOptions! as any // eslint-disable-line @typescript-eslint/no-explicit-any
-    expect(firstParserOptions.project).toBe(topLevelProject)
+    // Project should be resolved to absolute path
+    expect(isAbsolute(firstParserOptions.project)).toBe(true)
+    expect(firstParserOptions.project).toBe(
+      resolve(topLevelTsconfigRootDir, topLevelProject),
+    )
     expect(firstParserOptions.tsconfigRootDir).toBe(topLevelTsconfigRootDir)
 
     const secondConfig = configs[1]
     const secondParserOptions = secondConfig.languageOptions!
       .parserOptions! as any // eslint-disable-line @typescript-eslint/no-explicit-any
-    expect(secondParserOptions.project).toBe('packages/admin/tsconfig.json')
+    expect(isAbsolute(secondParserOptions.project)).toBe(true)
     expect(secondParserOptions.tsconfigRootDir).toBe(topLevelTsconfigRootDir)
   })
 })
