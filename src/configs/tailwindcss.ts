@@ -25,14 +25,8 @@ const createTailwindRules = (
   'better-tailwindcss/enforce-shorthand-classes': 'error',
   'better-tailwindcss/no-conflicting-classes': 'error',
   'better-tailwindcss/no-duplicate-classes': 'error',
+  'better-tailwindcss/no-unknown-classes': 'error',
   'better-tailwindcss/no-unnecessary-whitespace': 'error',
-  'better-tailwindcss/no-unregistered-classes': [
-    'error',
-    {
-      detectComponentClasses: true,
-      ignore: [],
-    },
-  ],
   ...overrides,
 })
 

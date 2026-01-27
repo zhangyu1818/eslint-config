@@ -2,7 +2,7 @@
   "name": "@zhangyu1818/eslint-config",
   "type": "module",
   "version": "4.0.1",
-  "packageManager": "pnpm@10.26.2",
+  "packageManager": "pnpm@10.28.2",
   "description": "zhangyu1818's eslint config",
   "license": "MIT",
   "homepage": "https://github.com/zhangyu1818/eslint-config",
@@ -26,37 +26,37 @@
     "eslint": "^9"
   },
   "dependencies": {
-    "@next/eslint-plugin-next": "^16.1.1",
-    "@vitest/eslint-plugin": "^1.6.4",
+    "@next/eslint-plugin-next": "^16.1.5",
+    "@vitest/eslint-plugin": "^1.6.6",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-better-tailwindcss": "^3.8.0",
+    "eslint-plugin-better-tailwindcss": "^4.0.2",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsonc": "^2.21.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-n": "^17.23.1",
+    "eslint-plugin-n": "^17.23.2",
     "eslint-plugin-no-only-tests": "^3.3.0",
-    "eslint-plugin-perfectionist": "^5.1.0",
-    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-perfectionist": "^5.4.0",
+    "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.26",
-    "eslint-plugin-regexp": "^2.10.0",
+    "eslint-plugin-regexp": "^3.0.0",
     "eslint-plugin-unicorn": "^62.0.0",
     "eslint-plugin-unused-imports": "^4.3.0",
-    "globals": "^16.5.0",
+    "globals": "^17.2.0",
     "jsonc-eslint-parser": "^2.4.2",
     "local-pkg": "^1.1.2",
-    "typescript-eslint": "^8.50.1"
+    "typescript-eslint": "^8.54.0"
   },
   "devDependencies": {
-    "@types/node": "^25.0.3",
+    "@types/node": "^25.0.10",
     "eslint": "^9.39.2",
-    "prettier": "^3.7.4",
+    "prettier": "^3.8.1",
     "tailwindcss": "^4.1.18",
     "tsup": "^8.5.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.18"
   }
 }

@@ -57,7 +57,7 @@ describe('tailwindcss', () => {
         config.rules?.['better-tailwindcss/no-unnecessary-whitespace'],
       ).toBe('error')
       expect(
-        config.rules?.['better-tailwindcss/no-unregistered-classes'],
+        config.rules?.['better-tailwindcss/no-unknown-classes'],
       ).toBeDefined()
 
       expect(config.settings).toBeDefined()
