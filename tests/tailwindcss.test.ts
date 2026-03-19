@@ -65,6 +65,7 @@ describe('tailwindcss', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const settings = config.settings?.['better-tailwindcss'] as any
       expect(settings.entryPoint).toBe(pkg.entryPoint)
+      expect(settings.tags).toEqual(['tw'])
       expect(settings.tailwindConfig).toBe(pkg.tailwindConfig)
     })
   })
@@ -80,6 +81,7 @@ describe('tailwindcss', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const settings = configs[0].settings?.['better-tailwindcss'] as any
     expect(settings.entryPoint).toBe(entryPoint)
+    expect(settings.tags).toEqual(['tw'])
     expect(settings.tailwindConfig).toBe(tailwindConfig)
   })
 
@@ -90,6 +92,7 @@ describe('tailwindcss', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const settings = configs[0].settings?.['better-tailwindcss'] as any
     expect(settings.entryPoint).toContain('src/app/globals.css')
+    expect(settings.tags).toEqual(['tw'])
   })
 
   it('should apply rule overrides to all package configs', () => {

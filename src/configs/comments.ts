@@ -1,5 +1,4 @@
-// @ts-expect-error - no types
-import * as eslintPluginComments from 'eslint-plugin-eslint-comments'
+import * as eslintPluginComments from '@eslint-community/eslint-plugin-eslint-comments'
 
 import { interopDefault } from '../utils'
 
