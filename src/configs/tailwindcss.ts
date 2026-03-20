@@ -2,6 +2,7 @@
 import process from 'node:process'
 
 import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss'
+import { MatcherType } from 'eslint-plugin-better-tailwindcss/types'
 import { isPackageExists } from 'local-pkg'
 
 import { GLOB_JS, GLOB_JSX, GLOB_TS, GLOB_TSX } from '../globs'
@@ -43,7 +44,7 @@ const createTailwindConfig = (
   settings: {
     'better-tailwindcss': {
       entryPoint,
-      tags: ['tw'],
+      tags: [['tw', [{ match: MatcherType.String }]]],
       tailwindConfig,
     },
   },
