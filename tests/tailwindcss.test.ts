@@ -133,14 +133,11 @@ describe('tailwindcss', () => {
 
     const code = [
       'const active = true',
-      "const foo = tw`" + '$' + "{active ? 'px-2 px-2' : ''}`",
+      'const foo = tw`' + '$' + "{active ? 'px-2 px-2' : ''}`",
       '',
     ].join('\n')
 
-    const [result] = await eslint.lintText(
-      code,
-      { filePath: 'example.js' },
-    )
+    const [result] = await eslint.lintText(code, { filePath: 'example.js' })
 
     expect(result.messages).toEqual(
       expect.arrayContaining([
