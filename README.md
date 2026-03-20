@@ -32,7 +32,7 @@
 ## ✨ Features
 
 - **Zero Configuration Setup** - Works out of the box with automatic dependency detection
-- **ESLint 9 Flat Config** - Uses the latest flat configuration format
+- **ESLint 10 Flat Config** - Uses the latest flat configuration format
 - **Rich Preset Support** - 15+ high-quality presets covering various tech stacks
 - **Highly Customizable** - Flexible rule overrides and options configuration
 - **Monorepo Friendly** - Native support for multi-package configurations
@@ -48,8 +48,8 @@ Before using this configuration, ensure your environment meets these requirement
 
 | Dependency | Minimum Version   | Recommended Version |
 | ---------- | ----------------- | ------------------- |
-| ESLint     | ^9.0.0            | Latest              |
-| Node.js    | ^18.0.0           | ^20.0.0             |
+| ESLint     | ^10.0.0           | Latest              |
+| Node.js    | ^20.19.0          | ^22.13.0 or ^24.0.0 |
 | TypeScript | ^5.0.0 (optional) | ^5.9.0              |
 
 ---
@@ -171,7 +171,7 @@ The following presets are automatically enabled based on project dependencies:
 
 | Preset       | Description              | Plugin                                             |
 | ------------ | ------------------------ | -------------------------------------------------- |
-| `comments`   | ESLint comment rules     | eslint-plugin-eslint-comments                      |
+| `comments`   | ESLint comment rules     | @eslint-community/eslint-plugin-eslint-comments   |
 | `imports`    | Import rules             | eslint-plugin-import, eslint-plugin-unused-imports |
 | `javascript` | JavaScript rules         | eslint-plugin-unused-imports                       |
 | `jsonc`      | JSON file rules          | eslint-plugin-jsonc                                |
@@ -1176,9 +1176,9 @@ export default defineConfig({}, [
 
 ### 8. Flat Config Migration Issues
 
-**Problem:** Errors after migrating from `.eslintrc` to flat config
+**Problem:** Errors while adopting flat config
 
-**Solution:** Ensure you're using ESLint 9+ and the correct config file name:
+**Solution:** Ensure you're using ESLint 10+ and the correct config file name:
 
 - `eslint.config.js` (CommonJS)
 - `eslint.config.mjs` (ES Modules - recommended)
@@ -1190,7 +1190,7 @@ export default defineConfig({}, [
 
 | Preset          | Plugin(s)                                                                                           |
 | --------------- | --------------------------------------------------------------------------------------------------- |
-| `comments`      | eslint-plugin-eslint-comments                                                                       |
+| `comments`      | @eslint-community/eslint-plugin-eslint-comments                                                     |
 | `imports`       | eslint-plugin-import, eslint-plugin-unused-imports                                                  |
 | `javascript`    | eslint-plugin-unused-imports                                                                        |
 | `jsonc`         | eslint-plugin-jsonc                                                                                 |

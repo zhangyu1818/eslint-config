@@ -1,3 +1,4 @@
+import { ESLint } from 'eslint'
 import { describe, expect, it } from 'vitest'
 
 import { tailwindcss } from '../src/configs/tailwindcss'
@@ -65,6 +66,7 @@ describe('tailwindcss', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const settings = config.settings?.['better-tailwindcss'] as any
       expect(settings.entryPoint).toBe(pkg.entryPoint)
+      expect(settings.tags).toEqual([['tw', [{ match: 'strings' }]]])
       expect(settings.tailwindConfig).toBe(pkg.tailwindConfig)
     })
   })
@@ -80,6 +82,7 @@ describe('tailwindcss', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const settings = configs[0].settings?.['better-tailwindcss'] as any
     expect(settings.entryPoint).toBe(entryPoint)
+    expect(settings.tags).toEqual([['tw', [{ match: 'strings' }]]])
     expect(settings.tailwindConfig).toBe(tailwindConfig)
   })
 
@@ -90,6 +93,7 @@ describe('tailwindcss', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const settings = configs[0].settings?.['better-tailwindcss'] as any
     expect(settings.entryPoint).toContain('src/app/globals.css')
+    expect(settings.tags).toEqual([['tw', [{ match: 'strings' }]]])
   })
 
   it('should apply rule overrides to all package configs', () => {
@@ -109,5 +113,41 @@ describe('tailwindcss', () => {
         'warn',
       )
     })
+  })
+
+  it('should lint string literals inside tw tagged template expressions', async () => {
+    const [config] = tailwindcss(undefined, {
+      'better-tailwindcss/enforce-consistent-class-order': 'off',
+      'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
+      'better-tailwindcss/enforce-consistent-variable-syntax': 'off',
+      'better-tailwindcss/enforce-shorthand-classes': 'off',
+      'better-tailwindcss/no-conflicting-classes': 'off',
+      'better-tailwindcss/no-unknown-classes': 'off',
+      'better-tailwindcss/no-unnecessary-whitespace': 'off',
+    })
+
+    const eslint = new ESLint({
+      overrideConfig: [config],
+      overrideConfigFile: true,
+    })
+
+    const code = [
+      'const active = true',
+      "const foo = tw`" + '$' + "{active ? 'px-2 px-2' : ''}`",
+      '',
+    ].join('\n')
+
+    const [result] = await eslint.lintText(
+      code,
+      { filePath: 'example.js' },
+    )
+
+    expect(result.messages).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          ruleId: 'better-tailwindcss/no-duplicate-classes',
+        }),
+      ]),
+    )
   })
 })
