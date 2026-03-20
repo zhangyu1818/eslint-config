@@ -1,12 +1,13 @@
 ---
 name: setup-eslint
-description: Ensure a JS/TS project has ESLint 9 installed, add @zhangyu1818/eslint-config, and generate or update an ESLint flat config file (eslint.config.*) based on detected stack (React, Next.js, TypeScript, TailwindCSS, Prettier, test tools). Use when setting up linting, migrating to flat config, or standardizing ESLint config to this package.
+description: Use when setting up linting in a JS/TS project, migrating legacy ESLint config to flat config, or standardizing a codebase on @zhangyu1818/eslint-config with the ESLint 10 baseline.
 ---
 
 # Setup ESLint
 
 ## Scope
 
+- Confirm the project and CI can satisfy Node.js `^20.19.0 || ^22.13.0 || >=24`
 - Ensure `eslint` and `@zhangyu1818/eslint-config` are in devDependencies
 - Create or update `eslint.config.*` using `defineConfig`
 - Derive presets from project dependencies and structure
@@ -14,17 +15,19 @@ description: Ensure a JS/TS project has ESLint 9 installed, add @zhangyu1818/esl
 
 ## Workflow
 
-1. Inspect project (package.json, lockfiles, existing ESLint configs)
-2. Install missing deps (`eslint@^9` and `@zhangyu1818/eslint-config`)
-3. Create or update `eslint.config.*` (prefer existing extension, otherwise `eslint.config.mjs`)
-4. Configure presets based on detected stack
-5. Add scripts if missing
-6. Verify if requested
+1. Inspect project (package.json, lockfiles, Node version/engines, existing ESLint configs)
+2. Confirm the project can move to Node.js `^20.19.0 || ^22.13.0 || >=24`; if not, stop and report the blocker
+3. Install or upgrade deps (`eslint@^10` and `@zhangyu1818/eslint-config`)
+4. Create or update `eslint.config.*` (prefer existing flat-config extension; otherwise `eslint.config.mjs`)
+5. Configure presets based on detected stack
+6. Add scripts if missing
+7. Verify if requested
 
 ## Inspect project
 
 - Read package.json
 - Detect package manager via lockfiles (`pnpm-lock.yaml`, `yarn.lock`, `bun.lockb`, `package-lock.json`)
+- Check the active Node.js version and `package.json.engines.node` for compatibility with `^20.19.0 || ^22.13.0 || >=24`
 - Check for existing ESLint config files:
   - `eslint.config.js`, `eslint.config.mjs`, `eslint.config.cjs`, `eslint.config.ts`
   - legacy `.eslintrc.*` files
@@ -32,18 +35,19 @@ description: Ensure a JS/TS project has ESLint 9 installed, add @zhangyu1818/esl
 
 ## Install dependencies
 
-- If eslint is missing, install `eslint@^9` as a devDependency
+- If eslint is missing or lower than 10, install or upgrade to `eslint@^10` as a devDependency
 - Install `@zhangyu1818/eslint-config` as a devDependency
 - Use detected package manager:
-  - pnpm: `pnpm add -D eslint @zhangyu1818/eslint-config`
-  - npm: `npm install -D eslint @zhangyu1818/eslint-config`
-  - yarn: `yarn add -D eslint @zhangyu1818/eslint-config`
-  - bun: `bun add -D eslint @zhangyu1818/eslint-config`
+  - pnpm: `pnpm add -D eslint@^10 @zhangyu1818/eslint-config`
+  - npm: `npm install -D eslint@^10 @zhangyu1818/eslint-config`
+  - yarn: `yarn add -D eslint@^10 @zhangyu1818/eslint-config`
+  - bun: `bun add -D eslint@^10 @zhangyu1818/eslint-config`
 
 ## Configure ESLint
 
 - Prefer existing `eslint.config.*` extension; otherwise create `eslint.config.mjs`
 - Use ESM import and `defineConfig`
+- If the project only has legacy `.eslintrc.*` or `eslintConfig`, migrate that intent into flat config and stop treating legacy config as active configuration
 - Preserve existing custom rules and user config arrays if present
 
 Example base:
@@ -83,7 +87,7 @@ export default defineConfig({
 
 ## Verify
 
-- Run eslint (`npx eslint .` or the package.json script) if requested
+- Prefer the existing `lint` script if present; otherwise run ESLint via the detected package manager (`pnpm exec eslint .`, `npm exec eslint .`, `yarn eslint .`, or `bunx eslint .`)
 
 # Configuration reference for @zhangyu1818/eslint-config
 
@@ -95,8 +99,8 @@ Before using this configuration, ensure your environment meets these requirement
 
 | Dependency | Minimum Version   | Recommended Version |
 | ---------- | ----------------- | ------------------- |
-| ESLint     | ^9.0.0            | Latest              |
-| Node.js    | ^18.0.0           | ^20.0.0             |
+| ESLint     | ^10.0.0           | Latest              |
+| Node.js    | ^20.19.0          | ^22.13.0 or ^24.0.0 |
 | TypeScript | ^5.0.0 (optional) | ^5.9.0              |
 
 ## Quick Start
@@ -107,16 +111,16 @@ Choose your preferred package manager:
 
 ```bash
 # pnpm (recommended)
-pnpm add @zhangyu1818/eslint-config -D
+pnpm add -D eslint@^10 @zhangyu1818/eslint-config
 
 # npm
-npm install @zhangyu1818/eslint-config -D
+npm install -D eslint@^10 @zhangyu1818/eslint-config
 
 # yarn
-yarn add @zhangyu1818/eslint-config -D
+yarn add -D eslint@^10 @zhangyu1818/eslint-config
 
 # bun
-bun add @zhangyu1818/eslint-config -D
+bun add -D eslint@^10 @zhangyu1818/eslint-config
 ```
 
 ### Basic Configuration
@@ -204,7 +208,7 @@ Note: Auto-detected presets can be disabled by explicitly setting them to `false
 
 | Preset       | Description              | Plugin                                             |
 | ------------ | ------------------------ | -------------------------------------------------- |
-| `comments`   | ESLint comment rules     | eslint-plugin-eslint-comments                      |
+| `comments`   | ESLint comment rules     | @eslint-community/eslint-plugin-eslint-comments    |
 | `imports`    | Import rules             | eslint-plugin-import, eslint-plugin-unused-imports |
 | `javascript` | JavaScript rules         | eslint-plugin-unused-imports                       |
 | `jsonc`      | JSON file rules          | eslint-plugin-jsonc                                |
@@ -833,27 +837,24 @@ Note: You can add custom ignore patterns using the `ignores` option in your conf
 
 ### Basic Commands
 
+Prefer package.json scripts when present. If scripts are missing, run ESLint with the detected package manager:
+
 ```bash
-# Check all files
-npx eslint .
+# pnpm
+pnpm exec eslint .
+pnpm exec eslint . --fix
 
-# Auto-fix fixable issues
-npx eslint . --fix
+# npm
+npm exec eslint .
+npm exec eslint . --fix
 
-# Check specific files
-npx eslint src/**/*.ts
+# yarn
+yarn eslint .
+yarn eslint . --fix
 
-# Check specific directory
-npx eslint src/
-
-# Show verbose output (useful for debugging)
-npx eslint . --debug
-
-# Show rule details
-npx eslint . --print-config
-
-# Use cache for faster runs
-npx eslint . --cache
+# bun
+bunx eslint .
+bunx eslint . --fix
 ```
 
 ### Recommended package.json Scripts
@@ -1180,17 +1181,19 @@ export default defineConfig({}, [
 
 Problem: Errors after migrating from `.eslintrc` to flat config
 
-Solution: Ensure you are using ESLint 9+ and the correct config file name:
+Solution: Ensure you are using ESLint 10+ and a supported flat config file name:
 
-- `eslint.config.js` (CommonJS)
-- `eslint.config.mjs` (ES Modules - recommended)
+- `eslint.config.mjs` (recommended when creating a new file)
+- `eslint.config.js` (when the project already uses ESM or `type: "module"`)
 - `eslint.config.ts` (TypeScript)
+
+Also migrate any legacy `.eslintrc.*` or `eslintConfig` settings into flat config; ESLint 10 no longer supports keeping legacy config as the active format.
 
 ## Included ESLint Plugins
 
 | Preset          | Plugin(s)                                                                                           |
 | --------------- | --------------------------------------------------------------------------------------------------- |
-| `comments`      | eslint-plugin-eslint-comments                                                                       |
+| `comments`      | @eslint-community/eslint-plugin-eslint-comments                                                     |
 | `imports`       | eslint-plugin-import, eslint-plugin-unused-imports                                                  |
 | `javascript`    | eslint-plugin-unused-imports                                                                        |
 | `jsonc`         | eslint-plugin-jsonc                                                                                 |
@@ -1212,4 +1215,4 @@ Solution: Ensure you are using ESLint 9+ and the correct config file name:
 - https://typescript-eslint.io/
 - https://prettier.io/
 - https://nextjs.org/docs/app/building-your-application/configuring/eslint
-- https://github.com/sveltejs/eslint-plugin-svelte/tree/main/packages/eslint-plugin-better-tailwindcss
+- https://github.com/schoero/eslint-plugin-better-tailwindcss
